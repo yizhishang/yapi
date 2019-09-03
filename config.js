@@ -1,6 +1,6 @@
 module.exports = {
    // 管理员账号，管理员默认密码是 ymfe.org，不可配置，请安装完成后自行登录修改
-   adminAccount: 'admin@hello.yapi',
+   adminAccount: 'admin@gpo.yapi',
  
    // MongoDB 数据库配置
    db: {
@@ -33,7 +33,7 @@ module.exports = {
      //   name: '插件名称',
      //   options: {}
      // }
-     // { name: 'import-swagger-customize' },
-     // { name: 'interface-oauth2-token' }
+     { name: 'import-swagger-customize' },
+     { name: 'interface-oauth2-token' }
    ]
  }
