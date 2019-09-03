@@ -10,6 +10,7 @@ ENV DB_PORT 	27017
 ENV VENDORS 	${HOME}/vendors
 ENV GIT_URL     https://github.com/YMFE/yapi.git
 ENV GIT_MIRROR_URL     https://gitee.com/mirrors/YApi.git
+ENV registry	https://registry.npm.taobao.org
 
 WORKDIR ${HOME}/
 
