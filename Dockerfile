@@ -1,34 +1,29 @@
-FROM node:10.15.2-jessie
-MAINTAINER mrjin<me@jinfeijie.cn>
-ENV VERSION 	1.5.6
-ENV PORT        3000
-ENV ADMIN_EMAIL "me@jinfeijie.cn"
-ENV DB_SERVER 	"mongo"
-ENV DB_NAME 	"yapi"
-ENV DB_PORT 	27017
-ENV GIT_URL     https://github.com/YMFE/yapi.git
-ENV GIT_MIRROR_URL     http://192.168.110.119:3000/yizhishang/YApi.git
-# ENV GIT_MIRROR_URL     https://gitee.com/mirrors/YApi.git
+FROM node:12-alpine as builder
+
+RUN apk add --no-cache git python make openssl tar gcc
+
 ENV REGISTRY	https://registry.npm.taobao.org
 
-WORKDIR /home
+# https://github.com/YMFE/yapi/archive/v1.8.3.tar.gz
+COPY yapi-1.8.3.tar.gz /home
 
-COPY entrypoint.sh /bin
-COPY config.json /home
-COPY wait-for-it.sh /
-COPY YApi-master.tar.gz /home
+RUN cd /home && tar zxvf yapi.tar.gz && mkdir /api && mv /home/yapi-1.8.3 /api/vendors
 
-RUN rm -rf node && \
-    tar -zxvf /home/YApi-master.tar.gz && \
-	echo "hello world" && \
-	pwd && ls && \
-	mv /home/config.json /home/yapi/ && \
-	cd /home/yapi && \
-	npm install -g node-gyp yapi-cli && \
-	npm install --production && \
- 	chmod +x /bin/entrypoint.sh && \
- 	chmod +x /wait-for-it.sh && \
-	rm -rf /home/YApi-master.tar.gz
+RUN cd /api/vendors && \
+    npm install --production --registry ${REGISTRY}
 
-EXPOSE ${PORT}
-ENTRYPOINT ["entrypoint.sh"]
+FROM node:12-alpine
+
+MAINTAINER 285206405@qq.com
+
+ENV TZ="Asia/Shanghai" HOME="/"
+
+WORKDIR ${HOME}
+
+COPY --from=builder /api/vendors /api/vendors
+
+COPY config.json /api/
+
+EXPOSE 3000
+
+ENTRYPOINT ["node"]
