@@ -32,6 +32,8 @@ RUN echo $(node -e "console.log(JSON.stringify(require('/yapi/config.js')))") > 
 ######## 镜像 ########
 FROM node:alpine
 
+MAINTAINER yuanyongjun
+
 WORKDIR /yapi
 
 COPY --from=source /yapi .
