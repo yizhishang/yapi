@@ -33,7 +33,7 @@ module.exports = {
      //   name: '插件名称',
      //   options: {}
      // }
-     { name: 'import-swagger-customize' },
-     { name: 'interface-oauth2-token' }
+    //  { name: 'import-swagger-customize' },
+    //  { name: 'interface-oauth2-token' }
    ]
  }
