@@ -25,7 +25,7 @@ module.exports = {
    },
  
    // 是否禁止注册
-   closeRegister: true,
+   closeRegister: false,
  
    // 需安装的插件列表
    plugins: [
